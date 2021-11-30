@@ -7,21 +7,8 @@ const initialState = [
   { id: 3, desc: "todo 3", completed: false },
 ];
 
-export const complete = id => ({
-  type: COMPLETE,
-  payload: id,
-});
 
-export const submit = text => ({
-  type: SUBMIT,
-  payload: {
-    id: Math.random().toString(36),
-    desc: text,
-    completed: false,
-  }
-});
-
-export default (state = initialState, action) => {
+const todos =  (state = initialState, action) => {
   switch (action.type) {
     case COMPLETE:
       console.log("disparando action")
@@ -32,3 +19,6 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+
+export default todos;

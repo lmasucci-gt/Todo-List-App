@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
 import { connect } from 'react-redux'
-import { complete, submit } from './reducers/todos'
+import { complete, submit } from './actions/todos'
 import Input from './components/Input'
 import ListItem from './components/ListItem'
 

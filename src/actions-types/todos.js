@@ -1,4 +1,6 @@
 
 
-export const COMPLETE = 'COMPLETE'
-export const SUBMIT = 'SUBMIT'
+const PREFIX = 'todos';
+
+export const COMPLETE = `${PREFIX}/COMPLETE`
+export const SUBMIT = `${PREFIX}/SUBMIT`
