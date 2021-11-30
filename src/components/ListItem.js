@@ -5,9 +5,9 @@ export default ({ desc, onPress, completed }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
 
-      {!completed
-      ? <Text styles={[styles.text, styles.strike]}>{desc}</Text>
-      : <Text styles={styles.text}>{desc}</Text>  
+      {completed
+      ? <Text style={[styles.text, styles.strike]}>{desc}</Text>
+      : <Text style={styles.text}>{desc}</Text>  
     }
 
     </TouchableOpacity>

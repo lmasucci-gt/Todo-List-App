@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, FlatList } from "react-native";
 import { connect } from 'react-redux'
-import { complete } from './reducers/todos'
+import { complete, submit } from './reducers/todos'
+import Input from './components/Input'
 import ListItem from './components/ListItem'
 
 const mapStateToProps = state => {
-  console.log("state", state)
   return {data: state.todos}
 }
 
 const mapDispatchToProps = dispatch => ({
-  complete: () => dispatch(complete(id))
+  complete: (id) => dispatch(complete(id)),
+  submit: (val) => dispatch(submit(val)),
 })
 
-const App = ({data, complete}) => {
+const App = ({data, complete, submit}) => {
+  
+  //states
+  const [titleValue, setTitleValue] = useState('');
+  const [value, setDescValue] = useState('');
+
+  const handleDesc = (val) => {
+    console.log(val)
+    setDescValue(val)
+  }
+
+  const handleSubmit = () => {
+    submit(value)
+    setDescValue('')
+  }
+
   return (
     <View style={styles.container}>
+      <Input onChange={handleDesc} value={value} onSubmit={handleSubmit} />
       <FlatList
       style={styles.list}
       data={data}
