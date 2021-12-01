@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 
-export default ({ completed, closeModal, showDetailTitle, showDetailDesc }) => {
+export default ({ changeState, completed, closeModal, showDetailTitle, showDetailDesc }) => {
   return (
     <>
       <View style={styles.modalHeader}>
@@ -18,9 +18,7 @@ export default ({ completed, closeModal, showDetailTitle, showDetailDesc }) => {
         <Text style={styles.modalDesc}>{showDetailDesc}</Text>
       </View>
       <View>
-        { completed ? 
-        <Button color={'#150112'} title={'Pending'} onPress={completed} />
-        : <Button color={'#150112'} title={'¡Completed!'} onPress={completed} /> }
+        <Button color={'#150112'} title={completed ? 'Pending' : '¡Completed!'} onPress={changeState} />
         <Button color={'#150112'} title="Exit" onPress={closeModal} />
       </View>
     </>

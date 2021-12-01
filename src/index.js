@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -23,6 +23,8 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const App = ({ data, complete, submit }) => {
+
+  const [task, setTasks] = useState([]);
   const [unfilteredToDos, setUnfilteredToDos] = useState(false);
   const [filterToDos, setFilterToDos] = useState([]);
   const [filterCompleted, setFilterCompleted] = useState([])
@@ -30,8 +32,23 @@ const App = ({ data, complete, submit }) => {
   const [visibility, setVisibility] = useState(false);
   const [selectedTask, setSelectedTask] = useState();
 
+  useEffect(() => {
+    console.log("psando por elefect")
+    setTasks(data);
+
+    if(filterToDos) {
+      handleFilter(2)
+      console.log("psando por elefect primer if")
+    }
+
+    if(filterCompleted) {
+      console.log("psando por elefect 2 if")
+      handleFilter(3)
+    }
+    
+  },[data])
+
   const handleDesc = (val) => {
-    console.log(val);
     setDescValue(val);
   };
 
@@ -41,7 +58,7 @@ const App = ({ data, complete, submit }) => {
     setDescValue('');
   };
 
-  handleCompletedTask = () => {
+  const handleChangeState = () => {
     complete(selectedTask.id);
     reset();
   };
@@ -62,7 +79,7 @@ const App = ({ data, complete, submit }) => {
       setUnfilteredToDos(true);
       setFilterCompleted(false);
       const filter = data.filter(x => x.completed === false)
-      setFilterCompleted(filter);
+      setFilterToDos(filter);
     }
 
     if(type == 3) {
@@ -70,13 +87,10 @@ const App = ({ data, complete, submit }) => {
       setFilterToDos(false);
       const filter = data.filter(x => x.completed === true)
       setFilterCompleted(filter);
-    }
-
-    console.log(data)
+    }    
   }
 
   const reset = () => {
-    console.log(data);
     setSelectedTask();
     setVisibility(false);
   };
@@ -102,10 +116,10 @@ const App = ({ data, complete, submit }) => {
 
       <View style={styles.body}>
 
-{      !unfilteredToDos ? (   
+{      !unfilteredToDos && task ? (   
         <FlatList
           style={styles.list}
-          data={data}
+          data={task}
           keyExtractor={(x) => String(x.id)}
           renderItem={({ item }) => (
             <ListItem
@@ -159,7 +173,8 @@ const App = ({ data, complete, submit }) => {
               showDetailTitle={selectedTask.title}
               showDetailDesc={selectedTask.desc}
               closeModal={reset}
-              completed={handleCompletedTask}
+              changeState={handleChangeState}
+              completed={selectedTask.completed}
             />
           </Modal>
         ) : null}
