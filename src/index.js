@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList, Text, Button } from "react-native";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  TouchableOpacity
+} from "react-native";
 import { connect } from "react-redux";
 import { complete, submit } from "./actions/todos";
 import Detail from "./components/Detail";
@@ -17,13 +23,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const App = ({ data, complete, submit }) => {
-  //states
-  const [titleValue, setTitleValue] = useState("");
   const [value, setDescValue] = useState("");
   const [visibility, setVisibility] = useState(false);
-  const [showDetailId, setShowDetailId] = useState("");
-  const [showDetailTitle, setShowDetailTitle] = useState("");
-  const [showDetailDesc, setShowDetailDesc] = useState("");
+  const [selectedTask, setSelectedTask] = useState();
 
   const handleDesc = (val) => {
     console.log(val);
@@ -35,28 +37,42 @@ const App = ({ data, complete, submit }) => {
     setDescValue("");
   };
 
-  const handleDetail = (id, title, desc) => {
-    setShowDetailId(id);
-    setShowDetailTitle(title);
-    setShowDetailDesc(desc);
+  handleCompletedTask = () => {
+    complete(selectedTask.id);
+    console.log(selectedTask);
+    reset();
+  };
+
+  const handleDetail = (item) => {
+    setSelectedTask(item);
     setVisibility(true);
   };
 
-  const handleCloseDetail = () => {
-    setShowDetailId("");
-    setShowDetailTitle("");
-    setShowDetailDesc("");
+  const reset = () => {
+    setSelectedTask();
     setVisibility(false);
   };
 
   return (
+    
     <View style={styles.containerHome}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Task Lists</Text>
+        <Text style={styles.headerTitle}>TODO LIST</Text>
       </View>
 
-      <View>
-        <Input onChange={handleDesc} value={value} onSubmit={handleSubmit} />
+      <View style={styles.filters}>
+      <TouchableOpacity onPress={reset} style={styles.filter}>
+        <Text style={styles.filterText}>All</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={reset} style={styles.filter}>
+      <Text style={styles.filterText}>To do</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={reset} style={styles.filter}>
+      <Text style={styles.filterText}>Completed</Text>
+      </TouchableOpacity>
+      </View>
+
+      <View style={styles.body}>
         <FlatList
           style={styles.list}
           data={data}
@@ -64,58 +80,70 @@ const App = ({ data, complete, submit }) => {
           renderItem={({ item }) => (
             <ListItem
               completed={item.completed}
-              onPress={() => handleDetail(item.id, item.title, item.desc)}
+              onPress={() => handleDetail(item)}
               title={item.title}
               desc={item.desc}
             />
           )}
         />
 
-        <Modal visibility={visibility}>
-          {visibility ? (
-            <View>
-              <View>
-                <Text>{showDetailTitle}</Text>
-              </View>
-              <View>
-                <Text>{showDetailDesc}</Text>
-              </View>
-              <View>
-                <Button title="Aceptar" />
-                <Button title="Cerrar" onPress={() => setVisibility(false)} />
-              </View>
-            </View>
-          ) : (
-            <Detail closeModal={() => handleCloseDetail()} />
-          )}
-        </Modal>
+
+        {visibility ? (
+          <Modal>
+            <Detail
+              showDetailTitle={selectedTask.title}
+              showDetailDesc={selectedTask.desc}
+              closeModal={reset}
+              completed={handleCompletedTask}
+            />
+          </Modal>
+        ) : null}
+      </View>
+      <View style={styles.footer}>          
+        <Input onChange={handleDesc} value={value} onSubmit={handleSubmit} />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  filterText: {
+    color: 'white',
+  },
+  filter: {
+    color: '#3E3364',
+    flex: 3,
+    margin: 5,
+    padding: 5,
+  },
+  filters: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#3E3364',
+    alignItems: 'stretch'
+  },
+  body: {
+    flex: 8
+  },
+  footer: {
+    flex: 1
+  },
   containerHome: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#3F0138",
+    backgroundColor: "#1E1A3C",
   },
   header: {
+    flex: 1,
+    marginLeft: 15,
     marginTop: 35,
     justifyContent: "center",
-    alignItems: "center",
   },
   headerTitle: {
     color: "white",
     alignContent: "center",
     justifyContent: "center",
     fontSize: 25,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
   },
   list: {
     alignSelf: "stretch",

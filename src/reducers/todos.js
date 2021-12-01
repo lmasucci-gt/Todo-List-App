@@ -11,7 +11,7 @@ const todos =  (state = initialState, action) => {
   switch (action.type) {
     case COMPLETE:
       console.log("disparando action")
-      return state.map(x => x.id === action.payload ? ({...x, completed: true}): x)
+      return state.map(x => x.id === action.payload ? ({...x, completed: !x.completed}): x)
     case SUBMIT:
       return [action.payload].concat(state);
     default:
