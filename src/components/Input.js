@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 const Input = ({ onChange, value, onSubmit }) => {
     return (
         <KeyboardAvoidingView style={styles.container}>
-        <TextInput style={styles.inputField} onChangeText={onChange} value={value} placeholder={'Write a task'} placeholderTextColor={'#fff'}/>
+        <TextInput style={styles.inputField} onChangeText={onChange} value={value} placeholder={'Task title'} placeholderTextColor={'#fff'}/>
         <TouchableOpacity onPress={onSubmit}>
                 <View style={styles.button}>
                     <MaterialIcons name="keyboard-arrow-up" size={24} color="black" />

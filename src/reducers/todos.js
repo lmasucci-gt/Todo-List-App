@@ -15,7 +15,7 @@ const todos =  (state = initialState, action) => {
     case SUBMIT:
       return [action.payload].concat(state);
     default:
-      return state;
+      return state
   }
 };
 

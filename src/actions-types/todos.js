@@ -1,5 +1,3 @@
-
-
 const PREFIX = 'todos';
 
 export const COMPLETE = `${PREFIX}/COMPLETE`

@@ -7,7 +7,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
-import { complete, submit } from "./actions/todos";
+import { complete, submit} from "./actions/todos";
 import Detail from "./components/Detail";
 import Input from "./components/Input";
 import ListItem from "./components/ListItem";
@@ -19,11 +19,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   complete: (id) => dispatch(complete(id)),
-  submit: (val) => dispatch(submit(val)),
+  submit: (id, title) => dispatch(submit(id, title)),
 });
 
 const App = ({ data, complete, submit }) => {
-  const [value, setDescValue] = useState("");
+  const [unfilteredToDos, setUnfilteredToDos] = useState(false);
+  const [filterToDos, setFilterToDos] = useState([]);
+  const [filterCompleted, setFilterCompleted] = useState([])
+  const [value, setDescValue] = useState('');
   const [visibility, setVisibility] = useState(false);
   const [selectedTask, setSelectedTask] = useState();
 
@@ -33,13 +36,13 @@ const App = ({ data, complete, submit }) => {
   };
 
   const handleSubmit = () => {
-    submit(value);
-    setDescValue("");
+    const id = data.length + 1
+    submit(id, value);
+    setDescValue('');
   };
 
   handleCompletedTask = () => {
     complete(selectedTask.id);
-    console.log(selectedTask);
     reset();
   };
 
@@ -48,7 +51,32 @@ const App = ({ data, complete, submit }) => {
     setVisibility(true);
   };
 
+  const handleFilter = (type) => {
+    if(type == 1) {
+      setUnfilteredToDos(false);
+      setFilterToDos(false);
+      setFilterCompleted(false);      
+    }
+
+    if(type == 2) {
+      setUnfilteredToDos(true);
+      setFilterCompleted(false);
+      const filter = data.filter(x => x.completed === false)
+      setFilterCompleted(filter);
+    }
+
+    if(type == 3) {
+      setUnfilteredToDos(true);
+      setFilterToDos(false);
+      const filter = data.filter(x => x.completed === true)
+      setFilterCompleted(filter);
+    }
+
+    console.log(data)
+  }
+
   const reset = () => {
+    console.log(data);
     setSelectedTask();
     setVisibility(false);
   };
@@ -61,18 +89,20 @@ const App = ({ data, complete, submit }) => {
       </View>
 
       <View style={styles.filters}>
-      <TouchableOpacity onPress={reset} style={styles.filter}>
-        <Text style={styles.filterText}>All</Text>
+      <TouchableOpacity onPress={() => handleFilter(1)} style={styles.filter}>
+        <Text style={styles.filterText}>ALL</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={reset} style={styles.filter}>
-      <Text style={styles.filterText}>To do</Text>
+      <TouchableOpacity onPress={() => handleFilter(2)} style={styles.filter}>
+      <Text style={styles.filterText}>TO DO</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={reset} style={styles.filter}>
-      <Text style={styles.filterText}>Completed</Text>
+      <TouchableOpacity onPress={() => handleFilter(3)} style={styles.filter}>
+      <Text style={styles.filterText}>COMPLETED</Text>
       </TouchableOpacity>
       </View>
 
       <View style={styles.body}>
+
+{      !unfilteredToDos ? (   
         <FlatList
           style={styles.list}
           data={data}
@@ -86,6 +116,41 @@ const App = ({ data, complete, submit }) => {
             />
           )}
         />
+) : null }    
+
+        {filterToDos ?
+        (
+          <FlatList
+          style={styles.list}
+          data={filterToDos}
+          keyExtractor={(x) => String(x.id)}
+          renderItem={({ item }) => (
+            <ListItem
+              completed={item.completed}
+              onPress={() => handleDetail(item)}
+              title={item.title}
+              desc={item.desc}
+            />
+          )}
+        />
+        ) : null}
+
+{filterCompleted ?
+        (
+          <FlatList
+          style={styles.list}
+          data={filterCompleted}
+          keyExtractor={(x) => String(x.id)}
+          renderItem={({ item }) => (
+            <ListItem
+              completed={item.completed}
+              onPress={() => handleDetail(item)}
+              title={item.title}
+              desc={item.desc}
+            />
+          )}
+        />
+        ) : null}
 
 
         {visibility ? (
@@ -100,7 +165,7 @@ const App = ({ data, complete, submit }) => {
         ) : null}
       </View>
       <View style={styles.footer}>          
-        <Input onChange={handleDesc} value={value} onSubmit={handleSubmit} />
+        <Input value={value} onChange={handleDesc} onSubmit={handleSubmit} />
       </View>
     </View>
   );
@@ -111,13 +176,20 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   filter: {
-    color: '#3E3364',
-    flex: 3,
-    margin: 5,
-    padding: 5,
+    flex: 33,
+    borderRadius: 10,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: "#1E1A3C",
+    paddingHorizontal: 15,
+    justifyContent: "center",
+    borderBottomWidth: 0.5,
+    justifyContent: "center",
+    alignItems: "center",
   },
   filters: {
-    flex: 1,
+    flex: 0.8,
     flexDirection: 'row',
     backgroundColor: '#3E3364',
     alignItems: 'stretch'
