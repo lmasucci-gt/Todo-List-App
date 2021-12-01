@@ -5,11 +5,12 @@ export const complete = (id) => ({
   payload: id,
 });
 
-export const submit = (text) => ({
+export const submit = (text, description) => ({
   type: SUBMIT,
   payload: {
     id: Math.random().toString(36),
-    desc: text,
+    title: text,
+    desc: description,
     completed: false,
   },
 });
