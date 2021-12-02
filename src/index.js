@@ -80,7 +80,7 @@ const App = ({
   const handleDescTask = (val) => {
     setDescValue(val);
     //se que no es la manera con mejor performance, pero estoy demorado
-    addDescription(selectedTask.id, descValue);
+    //addDescription(selectedTask.id, descValue);
   };
 
   const handleDeleteToDo = () => {
@@ -95,6 +95,11 @@ const App = ({
 
   const handleChangeState = () => {
     complete(selectedTask.id);
+    
+    if(selectedTask.desc !== descValue) {
+      addDescription(selectedTask.id, descValue)
+    }
+
     reset();
   };
 
@@ -126,7 +131,14 @@ const App = ({
   };
 
   const reset = () => {
+
+    if(descValue != ''){
+      if(selectedTask.desc !== descValue) {
+        addDescription(selectedTask.id, descValue)
+      }
+    }
     setSelectedTask();
+    setDescValue('');
     setVisibility(false);
   };
 

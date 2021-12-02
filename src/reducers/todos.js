@@ -12,13 +12,11 @@ const initialState = [];
 const todos = (state = initialState, action) => {
   switch (action.type) {
     case COMPLETE:
-      return state.map((x) =>
-        x.id === action.payload ? { ...x, completed: !x.completed } : x
-      );
+      return state.map((x) => x.id === action.payload ? { ...x, completed: !x.completed } : x);
     case SUBMIT:
       return [action.payload].concat(state);
     case ADDDESCRIPTION:
-      return state.map((x) => x.id === action.payload ? { ...x, desc: desc } : x);
+      return state.map((x) => x.id == action.payload.id ? { ...x, desc: action.payload.desc } : x);
     case DELETETODO:
       return state.filter((state) => state.id !== action.payload.id);
     default:
