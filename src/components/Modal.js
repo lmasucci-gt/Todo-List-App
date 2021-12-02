@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: Dimensions.get("window").height - 400,
     width: Dimensions.get("window").width - 160,
-    backgroundColor: "#150112",
+    backgroundColor: "#2C33B5",
     padding: 0,
     shadowColor: "#000",
     shadowOffset: {

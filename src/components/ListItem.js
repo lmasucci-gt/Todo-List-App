@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 35,
     marginVertical: 5,
     padding: 10,
-    backgroundColor: "#3E3364",
+    backgroundColor: "#04088E",
     paddingHorizontal: 15,
     justifyContent: "center",
     borderBottomWidth: 2.5,

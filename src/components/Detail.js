@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     borderTopWidth: 0.5,
     borderTopColor: "white",
-    backgroundColor: "#150112",
+    backgroundColor: "#2C33B5",
     flex: 1,
     flexDirection: "row",
   },

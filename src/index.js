@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     marginVertical: 5,
     padding: 10,
-    backgroundColor: "#1E1A3C",
+    backgroundColor: "#010212",
     paddingHorizontal: 15,
     justifyContent: "center",
     borderBottomWidth: 1,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     borderWidth: 0.8,
     flex: 0.8,
     flexDirection: "row",
-    backgroundColor: "#3E3364",
+    backgroundColor: "#010212",
     alignItems: "stretch",
   },
   body: {
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   containerHome: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "#1E1A3C",
+    backgroundColor: "#010212",
   },
   header: {
     flex: 1,

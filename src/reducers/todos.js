@@ -18,9 +18,7 @@ const todos = (state = initialState, action) => {
     case SUBMIT:
       return [action.payload].concat(state);
     case ADDDESCRIPTION:
-      return state.map((x) =>
-        x.id === action.payload ? { ...x, desc: desc } : x
-      );
+      return state.map((x) => x.id === action.payload ? { ...x, desc: desc } : x);
     case DELETETODO:
       return state.filter((state) => state.id !== action.payload.id);
     default:

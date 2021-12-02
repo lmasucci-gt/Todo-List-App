@@ -30,7 +30,7 @@ const Input = ({ onChange, value, onSubmit }) => {
 const styles = StyleSheet.create({
   container: {
     borderColor: "#fff",
-    backgroundColor: "#3E3364",
+    backgroundColor: "#04088E",
     borderWidth: 1,
     marginHorizontal: 20,
     borderRadius: 12,
