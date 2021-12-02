@@ -1,11 +1,7 @@
-import { COMPLETE, SUBMIT, ADDDESCRIPTION } from '../actions-types/todos';
+import { COMPLETE, SUBMIT, ADDDESCRIPTION, DELETETODO, DELETEALLTASKS } from '../actions-types/todos';
 
 //Persistencia de datos en memoria
-const initialState = [
-  { id: 1, title: 'First task', desc: "Install dependencies", completed: false },
-  { id: 2, title: 'Second task', desc: "Scaffolding", completed: false },
-];
-
+const initialState = [];
 
 const todos =  (state = initialState, action) => {
   switch (action.type) {
@@ -16,8 +12,12 @@ const todos =  (state = initialState, action) => {
       return [action.payload].concat(state);
     case ADDDESCRIPTION:
       return state.map((x) => x.id === action.payload ? ({...x, desc: desc}): x)
+    case DELETETODO:
+      console.log("action payload", action.payload.id)
+      return state.filter(state => state.id !== action.payload.id)
     default:
-      return state
+      case DELETEALLTASKS:
+      return initialState
   }
 };
 

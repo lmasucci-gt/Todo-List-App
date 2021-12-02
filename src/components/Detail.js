@@ -16,7 +16,7 @@ export default ({
   showDetailTitle,
   showDetailDesc,
   onChange,
- /* onSubmit,*/
+  deleteTask,
   value,
 }) => {
   return (
@@ -54,9 +54,9 @@ export default ({
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity  style={styles.touchableOptions}>
-          <Ionicons name="save-outline" size={20} color="white" />
-          <Text style={styles.buttonText}>Save</Text>
+        <TouchableOpacity onPress={deleteTask} style={styles.touchableOptions}>
+        <MaterialIcons name="delete-outline" size={20} color="white" />
+          <Text style={styles.buttonText}>Delete</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={closeModal} style={styles.touchableOptions}>
           <Ionicons name="exit-outline" size={20} color="white" />

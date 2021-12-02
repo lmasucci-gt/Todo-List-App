@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
-import { complete, submit, addDescription } from "./actions/todos";
+import { complete, submit, addDescription, deleteToDo, deleteAllTasks } from "./actions/todos";
+import 'react-native-get-random-values'
+import { v4 as uuid } from 'uuid'
+import { FontAwesome5 } from '@expo/vector-icons'; 
 import Detail from "./components/Detail";
 import Input from "./components/Input";
 import ListItem from "./components/ListItem";
@@ -21,9 +24,11 @@ const mapDispatchToProps = (dispatch) => ({
   complete: (id) => dispatch(complete(id)),
   submit: (id, title) => dispatch(submit(id, title)),
   addDescription: (id, desc) => dispatch(addDescription(id, desc)),
+  deleteToDo: (id) => dispatch(deleteToDo(id)),
+  deleteAllTasks: () => dispatch(deleteAllTasks()),
 });
 
-const App = ({ data, complete, submit, addDescription }) => {
+const App = ({ data, complete, submit, addDescription, deleteToDo, deleteAllTasks }) => {
   const [task, setTasks] = useState([]);
   const [unfilteredToDos, setUnfilteredToDos] = useState(false);
   const [filterToDos, setFilterToDos] = useState([]);
@@ -43,6 +48,7 @@ const App = ({ data, complete, submit, addDescription }) => {
     if (filterCompleted) {
       handleFilter(3);
     }
+    console.log(data)
   }, [data]);
 
   const handleTitleTask = (val) => {
@@ -50,27 +56,32 @@ const App = ({ data, complete, submit, addDescription }) => {
   };
 
   const handleSubmitTitleTask = () => {
-    const id = data.length + 1;
-    submit(id, titleValue);
+    //Evito que entren tareas vacias
+    if(titleValue == ''){
+      return;
+    }
+    const newID = uuid();
+    submit(newID, titleValue);
     setTitleValue("");
   };
 
   const handleDescTask = (val) => {
-    console.log(val);
     setDescValue(val);
     //se que no es la manera con mejor performance, pero estoy demorado
     addDescription(selectedTask.id, descValue);
   };
-/*
-  const handleSubmitDescTask = (descValue) => {
-    setDescValue(descValue)
-    console.log("submitiando desc", descValue, 'id ', selectedTask.id);
-    addDescription(selectedTask.id, descValue);
-    setDescValue("");
-    console.log(data);
+
+  const handleDeleteToDo = () => {
+    console.log("id recibido", selectedTask.id)
+    deleteToDo(selectedTask.id);
     reset();
-  };
-*/
+  }
+
+  const handleDeleteAllTasks = () => {
+    deleteAllTasks();
+    reset();
+  }
+
   const handleChangeState = () => {
     complete(selectedTask.id);
     reset();
@@ -111,7 +122,14 @@ const App = ({ data, complete, submit, addDescription }) => {
   return (
     <View style={styles.containerHome}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>TODO LIST</Text>
+      <View style={styles.headerContainerTitle}>        
+        <Text style={styles.headerTitle}><FontAwesome5 name="tasks" size={18} color="white" /> TODO LIST</Text>
+        </View>  
+      <View style={styles.headerContainerDelete}>
+        <TouchableOpacity onPress={handleDeleteAllTasks}>
+        <Text style={styles.headerTitleDelete}>Delete tasks</Text>
+        </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.filters}>
@@ -183,7 +201,7 @@ const App = ({ data, complete, submit, addDescription }) => {
               closeModal={reset}
               changeState={handleChangeState}
               completed={selectedTask.completed}
-              /* onSubmit={() => handleSubmitDescTask (descValue)} */
+              deleteTask={handleDeleteToDo}
               onChange={handleDescTask}
               value={descValue}
             />
@@ -237,11 +255,26 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
+    flexDirection: 'column',  
+    alignItems: 'stretch',  
     marginLeft: 15,
     marginTop: 35,
-    justifyContent: "center",
+  },
+  headerContainerDelete: {
+    alignItems: 'flex-end'
+  },
+  headerContainerTitle: {
+    alignItems: 'flex-start',   
+  },
+  headerTitleDelete: {
+    alignSelf: 'stretch',
+    color: 'white',
+    fontSize: 16,
+    paddingRight: 10,
+    fontStyle: 'italic'
   },
   headerTitle: {
+    paddingLeft: 5,
     color: "white",
     alignContent: "center",
     justifyContent: "center",
