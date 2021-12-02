@@ -230,11 +230,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#1E1A3C",
     paddingHorizontal: 15,
     justifyContent: "center",
-    borderBottomWidth: 0.5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    borderRightWidth: 1,
+    borderRightColor: 'white',
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   filters: {
+    borderTopColor: 'white',
+    borderWidth: 0.8,
     flex: 0.8,
     flexDirection: "row",
     backgroundColor: "#3E3364",
@@ -254,16 +259,16 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     flexDirection: 'column',  
-    alignItems: 'stretch',  
-    marginLeft: 15,
+    alignItems: 'stretch', 
     marginTop: 35,
+    borderBottomWidth: 1,
+    borderBottomColor: 'black',
   },
   headerContainerDelete: {
     alignItems: 'flex-end'
   },
   headerContainerTitle: {
-    alignItems: 'flex-start',       
-    fontStyle: 'italic'
+    alignItems: 'flex-start'
   },
   headerTitleDelete: {
     alignSelf: 'stretch',
@@ -273,6 +278,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     paddingLeft: 5,
+    fontStyle: 'italic',
     color: "white",
     alignContent: "center",
     justifyContent: "center",

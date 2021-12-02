@@ -15,16 +15,16 @@ export default ({ title, onPress, completed }) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 12,
-    marginHorizontal: 15,
+    marginHorizontal: 35,
     marginVertical: 5,
     padding: 10,
     backgroundColor: "#3E3364",
     paddingHorizontal: 15,
     justifyContent: "center",
-    borderBottomWidth: 1,
+    borderBottomWidth: 2.5,
     borderBottomColor: "black",
-    justifyContent: "center",
+    borderRightColor: 'black',
+    borderRightWidth: 2.5,
     alignItems: "center",
   },
   text: {
