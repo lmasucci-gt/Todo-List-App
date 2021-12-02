@@ -1,4 +1,4 @@
-import { COMPLETE, SUBMIT } from '../actions-types/todos';
+import { COMPLETE, SUBMIT, ADDDESCRIPTION } from '../actions-types/todos';
 
 //Persistencia de datos en memoria
 const initialState = [
@@ -14,6 +14,8 @@ const todos =  (state = initialState, action) => {
       return state.map(x => x.id === action.payload ? ({...x, completed: !x.completed}): x)
     case SUBMIT:
       return [action.payload].concat(state);
+    case ADDDESCRIPTION:
+      return state.map((x) => x.id === action.payload ? ({...x, desc: desc}): x)
     default:
       return state
   }

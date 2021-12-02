@@ -1,4 +1,4 @@
-import { COMPLETE, SUBMIT } from "../actions-types/todos";
+import { COMPLETE, SUBMIT, ADDDESCRIPTION } from "../actions-types/todos";
 
 export const complete = (id) => ({
   type: COMPLETE,
@@ -14,4 +14,12 @@ export const submit = (TodoID, text) => ({
     completed: false,
   },
 });
+
+export const addDescription = (TodoID, TodoDesc) => ({
+    type: ADDDESCRIPTION,
+    payload: {
+      id:TodoID,
+      desc: TodoDesc,
+    }
+})
 

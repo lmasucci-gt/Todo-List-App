@@ -16,7 +16,7 @@ export default ({
   showDetailTitle,
   showDetailDesc,
   onChange,
-  onSubmit,
+ /* onSubmit,*/
   value,
 }) => {
   return (
@@ -54,7 +54,7 @@ export default ({
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity onPress={onSubmit} style={styles.touchableOptions}>
+        <TouchableOpacity  style={styles.touchableOptions}>
           <Ionicons name="save-outline" size={20} color="white" />
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
