@@ -48,7 +48,6 @@ const App = ({ data, complete, submit, addDescription, deleteToDo, deleteAllTask
     if (filterCompleted) {
       handleFilter(3);
     }
-    console.log(data)
   }, [data]);
 
   const handleTitleTask = (val) => {
@@ -72,7 +71,6 @@ const App = ({ data, complete, submit, addDescription, deleteToDo, deleteAllTask
   };
 
   const handleDeleteToDo = () => {
-    console.log("id recibido", selectedTask.id)
     deleteToDo(selectedTask.id);
     reset();
   }
@@ -264,14 +262,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   headerContainerTitle: {
-    alignItems: 'flex-start',   
+    alignItems: 'flex-start',       
+    fontStyle: 'italic'
   },
   headerTitleDelete: {
     alignSelf: 'stretch',
     color: 'white',
     fontSize: 16,
     paddingRight: 10,
-    fontStyle: 'italic'
   },
   headerTitle: {
     paddingLeft: 5,
