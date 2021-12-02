@@ -28,35 +28,45 @@ const App = ({ data, complete, submit }) => {
   const [unfilteredToDos, setUnfilteredToDos] = useState(false);
   const [filterToDos, setFilterToDos] = useState([]);
   const [filterCompleted, setFilterCompleted] = useState([])
-  const [value, setDescValue] = useState('');
+  const [titleValue, setTitleValue] = useState('');
+  const [descValue, setDescValue] = useState('');
   const [visibility, setVisibility] = useState(false);
   const [selectedTask, setSelectedTask] = useState();
 
   useEffect(() => {
-    console.log("psando por elefect")
     setTasks(data);
 
     if(filterToDos) {
       handleFilter(2)
-      console.log("psando por elefect primer if")
     }
 
     if(filterCompleted) {
-      console.log("psando por elefect 2 if")
       handleFilter(3)
     }
     
   },[data])
 
-  const handleDesc = (val) => {
-    setDescValue(val);
+  const handleTitleTask = val => {
+    setTitleValue(val);
   };
 
-  const handleSubmit = () => {
+  const handleSubmitTitleTask = () => {
     const id = data.length + 1
-    submit(id, value);
-    setDescValue('');
+    submit(id, titleValue);
+    setTitleValue('');
   };
+
+  const handleDescTask = val => {
+    console.log(val)
+    setDescValue(val);
+  }
+
+  const handleSubmitDescTask = () => {
+    //tengo que traerme el id de lo que estoy modificando
+    console.log("submitiando desc")
+    //submitDesc(id, descValue);
+    setDescValue('');
+  }
 
   const handleChangeState = () => {
     complete(selectedTask.id);
@@ -175,12 +185,15 @@ const App = ({ data, complete, submit }) => {
               closeModal={reset}
               changeState={handleChangeState}
               completed={selectedTask.completed}
+              onChange={handleDescTask}
+              onSubmit={handleSubmitDescTask}
+              value={descValue}
             />
           </Modal>
         ) : null}
       </View>
       <View style={styles.footer}>          
-        <Input value={value} onChange={handleDesc} onSubmit={handleSubmit} />
+        <Input value={titleValue} onChange={handleTitleTask} onSubmit={handleSubmitTitleTask} />
       </View>
     </View>
   );
@@ -230,7 +243,8 @@ const styles = StyleSheet.create({
     color: "white",
     alignContent: "center",
     justifyContent: "center",
-    fontSize: 25,
+    fontSize: 24,
+    fontWeight: 'bold',
   },
   list: {
     alignSelf: "stretch",
