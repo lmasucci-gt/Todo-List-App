@@ -7,10 +7,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
-import { complete, submit, addDescription, deleteToDo, deleteAllTasks } from "./actions/todos";
-import 'react-native-get-random-values'
-import { v4 as uuid } from 'uuid'
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import {
+  complete,
+  submit,
+  addDescription,
+  deleteToDo,
+  deleteAllTasks,
+} from "./actions/todos";
+import "react-native-get-random-values";
+import { v4 as uuid } from "uuid";
+import { FontAwesome5 } from "@expo/vector-icons";
 import Detail from "./components/Detail";
 import Input from "./components/Input";
 import ListItem from "./components/ListItem";
@@ -28,7 +34,14 @@ const mapDispatchToProps = (dispatch) => ({
   deleteAllTasks: () => dispatch(deleteAllTasks()),
 });
 
-const App = ({ data, complete, submit, addDescription, deleteToDo, deleteAllTasks }) => {
+const App = ({
+  data,
+  complete,
+  submit,
+  addDescription,
+  deleteToDo,
+  deleteAllTasks,
+}) => {
   const [task, setTasks] = useState([]);
   const [unfilteredToDos, setUnfilteredToDos] = useState(false);
   const [filterToDos, setFilterToDos] = useState([]);
@@ -56,7 +69,7 @@ const App = ({ data, complete, submit, addDescription, deleteToDo, deleteAllTask
 
   const handleSubmitTitleTask = () => {
     //Evito que entren tareas vacias
-    if(titleValue == ''){
+    if (titleValue == "") {
       return;
     }
     const newID = uuid();
@@ -73,12 +86,12 @@ const App = ({ data, complete, submit, addDescription, deleteToDo, deleteAllTask
   const handleDeleteToDo = () => {
     deleteToDo(selectedTask.id);
     reset();
-  }
+  };
 
   const handleDeleteAllTasks = () => {
     deleteAllTasks();
     reset();
-  }
+  };
 
   const handleChangeState = () => {
     complete(selectedTask.id);
@@ -120,13 +133,15 @@ const App = ({ data, complete, submit, addDescription, deleteToDo, deleteAllTask
   return (
     <View style={styles.containerHome}>
       <View style={styles.header}>
-      <View style={styles.headerContainerTitle}>        
-        <Text style={styles.headerTitle}><FontAwesome5 name="tasks" size={18} color="white" /> TODO LIST</Text>
-        </View>  
-      <View style={styles.headerContainerDelete}>
-        <TouchableOpacity onPress={handleDeleteAllTasks}>
-        <Text style={styles.headerTitleDelete}>Delete tasks</Text>
-        </TouchableOpacity>
+        <View style={styles.headerContainerTitle}>
+          <Text style={styles.headerTitle}>
+            <FontAwesome5 name="tasks" size={18} color="white" /> TODO LIST
+          </Text>
+        </View>
+        <View style={styles.headerContainerDelete}>
+          <TouchableOpacity onPress={handleDeleteAllTasks}>
+            <Text style={styles.headerTitleDelete}>Delete tasks</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -231,14 +246,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     justifyContent: "center",
     borderBottomWidth: 1,
-    borderBottomColor: 'white',
+    borderBottomColor: "white",
     borderRightWidth: 1,
-    borderRightColor: 'white',
+    borderRightColor: "white",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   filters: {
-    borderTopColor: 'white',
+    borderTopColor: "white",
     borderWidth: 0.8,
     flex: 0.8,
     flexDirection: "row",
@@ -258,27 +273,27 @@ const styles = StyleSheet.create({
   },
   header: {
     flex: 1,
-    flexDirection: 'column',  
-    alignItems: 'stretch', 
+    flexDirection: "column",
+    alignItems: "stretch",
     marginTop: 35,
     borderBottomWidth: 1,
-    borderBottomColor: 'black',
+    borderBottomColor: "black",
   },
   headerContainerDelete: {
-    alignItems: 'flex-end'
+    alignItems: "flex-end",
   },
   headerContainerTitle: {
-    alignItems: 'flex-start'
+    alignItems: "flex-start",
   },
   headerTitleDelete: {
-    alignSelf: 'stretch',
-    color: 'white',
+    alignSelf: "stretch",
+    color: "white",
     fontSize: 16,
     paddingRight: 10,
   },
   headerTitle: {
     paddingLeft: 5,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     color: "white",
     alignContent: "center",
     justifyContent: "center",

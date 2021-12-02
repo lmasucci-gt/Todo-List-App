@@ -1,4 +1,10 @@
-import { COMPLETE, SUBMIT, ADDDESCRIPTION, DELETETODO, DELETEALLTASKS } from "../actions-types/todos";
+import {
+  COMPLETE,
+  SUBMIT,
+  ADDDESCRIPTION,
+  DELETETODO,
+  DELETEALLTASKS,
+} from "../actions-types/todos";
 
 export const complete = (TodoID) => ({
   type: COMPLETE,
@@ -16,21 +22,20 @@ export const submit = (TodoID, text) => ({
 });
 
 export const addDescription = (TodoID, TodoDesc) => ({
-    type: ADDDESCRIPTION,
-    payload: {
-      id:TodoID,
-      desc: TodoDesc,
-    }
-})
+  type: ADDDESCRIPTION,
+  payload: {
+    id: TodoID,
+    desc: TodoDesc,
+  },
+});
 
 export const deleteToDo = (TodoID) => ({
   type: DELETETODO,
   payload: {
-    id: TodoID
-  }
-})
+    id: TodoID,
+  },
+});
 
 export const deleteAllTasks = () => ({
   type: DELETEALLTASKS,
-})
-
+});

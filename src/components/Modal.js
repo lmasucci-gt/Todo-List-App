@@ -25,10 +25,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width - 160,
     backgroundColor: "#150112",
     padding: 0,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 3,
-    }
+    },
   },
 });

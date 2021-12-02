@@ -24,6 +24,7 @@ export default ({
       <View style={styles.modalHeader}>
         <Text style={styles.modalTitle}>{showDetailTitle}</Text>
       </View>
+
       <View style={styles.modalBody}>
         <TextInput
           multiline
@@ -35,7 +36,9 @@ export default ({
           placeholderTextColor={"#fff"}
         />
       </View>
+
       <View style={styles.containerButtons}>
+
         {completed ? (
           <TouchableOpacity
             onPress={changeState}
@@ -55,13 +58,15 @@ export default ({
         )}
 
         <TouchableOpacity onPress={deleteTask} style={styles.touchableOptions}>
-        <MaterialIcons name="delete-outline" size={20} color="white" />
+          <MaterialIcons name="delete-outline" size={20} color="white" />
           <Text style={styles.buttonText}>Delete</Text>
         </TouchableOpacity>
+
         <TouchableOpacity onPress={closeModal} style={styles.touchableOptions}>
           <Ionicons name="exit-outline" size={20} color="white" />
           <Text style={styles.buttonText}>Exit</Text>
         </TouchableOpacity>
+        
       </View>
     </>
   );
@@ -85,15 +90,15 @@ const styles = StyleSheet.create({
     color: "white",
   },
   containerButtons: {
-    flex: 3,    
+    flex: 3,
     flexDirection: "column",
     alignItems: "stretch",
     marginHorizontal: 20,
   },
-  touchableOptions: { 
-    paddingTop: 8,   
+  touchableOptions: {
+    paddingTop: 8,
     borderTopWidth: 0.5,
-    borderTopColor: 'white',
+    borderTopColor: "white",
     backgroundColor: "#150112",
     flex: 1,
     flexDirection: "row",
@@ -104,7 +109,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   inputField: {
-    color: 'white',
+    color: "white",
     fontSize: 15,
     margin: 15,
   },

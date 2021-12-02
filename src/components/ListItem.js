@@ -23,13 +23,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderBottomWidth: 2.5,
     borderBottomColor: "black",
-    borderRightColor: 'black',
+    borderRightColor: "black",
     borderRightWidth: 2.5,
     alignItems: "center",
   },
   text: {
     fontSize: 18,
-    color: 'white'
+    color: "white",
   },
   strike: {
     textDecorationLine: "line-through",
