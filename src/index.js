@@ -5,6 +5,7 @@ import {
   FlatList,
   Text,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { connect } from "react-redux";
 import {
@@ -16,11 +17,9 @@ import {
 } from "./actions/todos";
 import "react-native-get-random-values";
 import { v4 as uuid } from "uuid";
-import { FontAwesome5 } from "@expo/vector-icons";
-import Detail from "./components/Detail";
 import Input from "./components/Input";
 import ListItem from "./components/ListItem";
-import CustomModal from "./components/Modal";
+import CustomModal from './components/Modal';
 
 const mapStateToProps = (state) => {
   return { data: state.todos };
@@ -42,7 +41,10 @@ const App = ({
   deleteToDo,
   deleteAllTasks,
 }) => {
+
+
   const [task, setTasks] = useState([]);
+  const [selectedFilter, setSelectedFilter] = useState('Todos')
   const [unfilteredToDos, setUnfilteredToDos] = useState(false);
   const [filterToDos, setFilterToDos] = useState([]);
   const [filterCompleted, setFilterCompleted] = useState([]);
@@ -61,9 +63,12 @@ const App = ({
     if (filterCompleted) {
       handleFilter(3);
     }
+    
   }, [data]);
 
+
   const handleTitleTask = (val) => {
+    console.log(val)
     setTitleValue(val);
   };
 
@@ -73,6 +78,7 @@ const App = ({
       return;
     }
     const newID = uuid();
+    console.log(newID, titleValue)
     submit(newID, titleValue);
     setTitleValue("");
   };
@@ -93,13 +99,8 @@ const App = ({
     reset();
   };
 
-  const handleChangeState = () => {
-    complete(selectedTask.id);
-    
-    if(selectedTask.desc !== descValue) {
-      addDescription(selectedTask.id, descValue)
-    }
-
+  const handleChangeState = (item) => {
+    complete(item.id);
     reset();
   };
 
@@ -109,10 +110,13 @@ const App = ({
   };
 
   const handleFilter = (type) => {
+    console.log('recibiend tipo', type)
     if (type == 1) {
       setUnfilteredToDos(false);
       setFilterToDos(false);
       setFilterCompleted(false);
+      setSelectedFilter('Todos');
+      setVisibility(false);
     }
 
     if (type == 2) {
@@ -120,6 +124,8 @@ const App = ({
       setFilterCompleted(false);
       const filter = data.filter((x) => x.completed === false);
       setFilterToDos(filter);
+      setSelectedFilter('No Realizados');
+      setVisibility(false);
     }
 
     if (type == 3) {
@@ -127,37 +133,155 @@ const App = ({
       setFilterToDos(false);
       const filter = data.filter((x) => x.completed === true);
       setFilterCompleted(filter);
+      setSelectedFilter('Realizados');
+      setVisibility(false);
     }
   };
 
   const reset = () => {
-
-    if(descValue != ''){
-      if(selectedTask.desc !== descValue) {
-        addDescription(selectedTask.id, descValue)
+    if (descValue != "") {
+      if (selectedTask.desc !== descValue) {
+        addDescription(selectedTask.id, descValue);
       }
     }
     setSelectedTask();
-    setDescValue('');
+    setDescValue("");
     setVisibility(false);
   };
 
   return (
     <View style={styles.containerHome}>
-      <View style={styles.header}>
-        <View style={styles.headerContainerTitle}>
-          <Text style={styles.headerTitle}>
-            <FontAwesome5 name="tasks" size={18} color="white" /> TODO LIST
-          </Text>
-        </View>
-        <View style={styles.headerContainerDelete}>
-          <TouchableOpacity onPress={handleDeleteAllTasks}>
-            <Text style={styles.headerTitleDelete}>Delete tasks</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.contLog}>
+        <Image
+          style={styles.contLogo}
+          source={require("../assets/png/pcnt-logo.png")}
+        />
       </View>
 
-      <View style={styles.filters}>
+      {/* Estilo cuando no tengo tareas pendientes*/}
+      {task.length == 0 ? (
+        <View style={styles.contWithoutTask}>
+          <View style={styles.contTitle}>
+            <Text style={styles.title}>To do list</Text>
+          </View>
+
+          <View style={styles.contSubTitle}>
+            <Text style={styles.subtitle}>
+              ¿Que cosas tenés que terminar hoy?
+            </Text>            
+          </View>
+            <View style={styles.contInputToDoWitouhtTask}>
+              <Input
+                value={titleValue}
+                onChange={handleTitleTask}
+              />
+            </View>
+                
+          <View style={styles.contBody}>
+          </View>
+        </View>
+      ) 
+      : ( 
+        <View style={styles.contWithList}>
+
+          <View styles={styles.contInputToDo}>
+            <Input
+              value={titleValue}
+              onChange={handleTitleTask}
+            />
+          </View>
+
+          <View style={styles.taskList}>
+            
+            <View style={styles.taskListTitle}>
+              <View style={styles.contListAndFilter}>
+              <Text style={styles.textTaskListTitle}>To do list</Text>
+              <TouchableOpacity onPress={() => setVisibility(true)}>
+              <Text style={styles.filters}>{selectedFilter}</Text>
+              </TouchableOpacity>
+              </View>
+            </View>
+
+            <View style={styles.taskListBody}>
+
+            {!unfilteredToDos && task ? (
+            <FlatList
+            testID="unfiltered-list"
+            data={task}
+            keyExtractor={(x) => String(x.id)}
+            renderItem={({ item }) => (
+              <ListItem
+                completed={item.completed}
+                changeState={() => handleChangeState(item)}
+                title={item.title}
+                desc={item.desc}
+              />
+            )}
+          />
+        ) : null}
+
+        {filterToDos ? (
+            <FlatList
+            testID="unfiltered-list"
+            data={filterToDos}
+            keyExtractor={(x) => String(x.id)}
+            renderItem={({ item }) => (
+              <ListItem
+                completed={item.completed}
+                changeState={() => handleChangeState(item)}
+                title={item.title}
+                desc={item.desc}
+              />
+            )}
+          />
+        ) : null}
+
+        {filterCompleted ? (
+            <FlatList
+            testID="unfiltered-list"
+            data={filterCompleted}
+            keyExtractor={(x) => String(x.id)}
+            renderItem={({ item }) => (
+              <ListItem
+                completed={item.completed}
+                changeState={() => handleChangeState(item)}
+                title={item.title}
+                desc={item.desc}
+              />
+            )}
+          />
+        ) : null}
+
+          </View>
+
+          {visibility ? (
+          <CustomModal>
+          <View style={styles.modalFilters}>
+          <TouchableOpacity onPress={() => handleFilter(1)}><Text>Todos</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => handleFilter(2)}><Text>No Realizados</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => handleFilter(3)}><Text>Realizados</Text></TouchableOpacity>
+          </View>
+          </CustomModal>    
+          
+        ) : null}
+
+</View>
+        </View>
+      )}
+
+      <View style={styles.contAgregar}>
+        <TouchableOpacity style={styles.touchAgregar} onPress={() => handleSubmitTitleTask()}>
+          <Text style={styles.textAgregar}>Agregar</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.falseLabel} />
+    </View>
+  );
+};
+
+{
+  /* <View style={styles.filters}>
         <TouchableOpacity onPress={() => handleFilter(1)} style={styles.filter}>
           <Text style={styles.filterText}>ALL</Text>
         </TouchableOpacity>
@@ -167,9 +291,11 @@ const App = ({
         <TouchableOpacity onPress={() => handleFilter(3)} style={styles.filter}>
           <Text style={styles.filterText}>COMPLETED</Text>
         </TouchableOpacity>
-      </View>
+      </View> */
+}
 
-      <View style={styles.body}>
+{
+  /* <View style={styles.body}>
         {!unfilteredToDos && task ? (
           <FlatList
             testID='unfiltered-list'
@@ -240,81 +366,114 @@ const App = ({
           onChange={handleTitleTask}
           onSubmit={handleSubmitTitleTask}
         />
-      </View>
-    </View>
-  );
-};
+      </View> */
+}
 
 const styles = StyleSheet.create({
-  filterText: {
-    color: "white",
+  containerHome: {
+    backgroundColor: "#E5E5E5",
+    marginTop: 45,
+    flex: 1,
+    flexDirection: "column",
   },
-  filter: {
-    flex: 33,
-    borderRadius: 10,
-    marginHorizontal: 5,
-    marginVertical: 5,
-    padding: 10,
-    backgroundColor: "#010212",
-    paddingHorizontal: 15,
-    justifyContent: "center",
-    borderBottomWidth: 1,
-    borderBottomColor: "white",
-    borderRightWidth: 1,
-    borderRightColor: "white",
-    justifyContent: "center",
-    alignItems: "center",
+  contWithoutTask: {
+    flex: 40,
   },
-  filters: {
-    borderTopColor: "white",
-    borderWidth: 0.8,
-    flex: 0.8,
-    flexDirection: "row",
-    backgroundColor: "#010212",
-    alignItems: "stretch",
+  contWithList:{
+    flex: 55, 
+    paddingTop: 15
   },
-  body: {
+  taskList: {
+    marginVertical: 15,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    marginHorizontal: 15,
+    flex: 1,    
+  },
+  taskListTitle: {
+    flex: 1,
+    paddingLeft: 15,  
+  },
+  textTaskListTitle:{
+    fontWeight:'bold',
+    fontSize: 18,
+  },
+  taskListBody: {
     flex: 8,
   },
-  footer: {
-    flex: 1,
+  contListAndFilter: {
+    flex:1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
-  containerHome: {
-    flex: 1,
-    flexDirection: "column",
-    backgroundColor: "#010212",
+  filters: {
+    marginRight: 15
   },
-  header: {
-    flex: 1,
-    flexDirection: "column",
-    alignItems: "stretch",
-    marginTop: 35,
-    borderBottomWidth: 1,
-    borderBottomColor: "black",
-  },
-  headerContainerDelete: {
-    alignItems: "flex-end",
-  },
-  headerContainerTitle: {
-    alignItems: "flex-start",
-  },
-  headerTitleDelete: {
-    alignSelf: "stretch",
-    color: "white",
+  modalFilters: {
     fontSize: 16,
-    paddingRight: 10,
+    color: "black",
+    marginLeft: 20,
   },
-  headerTitle: {
-    paddingLeft: 5,
-    fontStyle: "italic",
-    color: "white",
-    alignContent: "center",
+  logo: {
+    width: 30.99,
+    height: 40,
+    left: 38,
+    top: 121,
+  },
+  contLog: {
     justifyContent: "center",
-    fontSize: 24,
-    fontWeight: "bold",
+    paddingLeft: 20,
+    flex: 10,
   },
-  list: {
-    alignSelf: "stretch",
+  contTitle: {
+    flex: 10,
+    justifyContent: "center",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 25,
+    paddingLeft: 20,
+  },
+  contSubTitle: {
+    flex: 5,
+    paddingLeft: 20,
+  },
+  subtitle: {
+    fontWeight: "normal",
+  },
+  contBody: {
+    flex: 55,
+    paddingLeft: 20,
+  },
+  contInputToDo: {
+    flex: 5,
+    paddingLeft: 20,
+    justifyContent: "center",
+  },
+  contInputToDoWitouhtTask: {
+    flex: 5,
+    justifyContent: "center",
+  },
+  contAgregar: {
+    flex: 10,
+    justifyContent: "center",
+    alignItems: "stretch",
+  },
+  touchAgregar: {
+    paddingVertical: 10,
+    paddingHorizontal: 35,
+    borderRadius: 50,
+    backgroundColor: "#FFFFFF",
+    marginHorizontal: 30,
+    alignItems: "center",
+  },
+  textAgregar: {
+    color: "rgba(0, 0, 0, 0.5)",
+  },
+  falseLabel: {
+    flex: 5,
+    borderTopWidth: 4,
+    marginHorizontal: 150,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { Children } from "react";
-import { Dimensions, StyleSheet, Modal, View, Text } from "react-native";
+import { StyleSheet, Modal, View } from "react-native";
 
 const CustomModal =  ({ children }) => {
   return (
@@ -14,22 +14,21 @@ const CustomModal =  ({ children }) => {
 const styles = StyleSheet.create({
   center: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "rgba(0,0,0,0.4)",
   },
   modalView: {
+    position: 'absolute',
     borderRadius: 15,
-    flexDirection: "column",
-    height: Dimensions.get("window").height - 400,
-    width: Dimensions.get("window").width - 160,
-    backgroundColor: "#2C33B5",
+    left: 235,
+    top: 210,
+    height: 70,
+    width: 152,
+    backgroundColor: "#FFFFFF",
     padding: 0,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
+    shadowColor: "rgba(0, 0, 0, 0.15)", 
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });
 
