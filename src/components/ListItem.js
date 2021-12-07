@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-export default ({ title, onPress, completed }) => {
+const ListItem = ({ title, onPress, completed }) => {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       {completed ? (
@@ -36,3 +36,5 @@ const styles = StyleSheet.create({
     textDecorationStyle: "solid",
   },
 });
+
+export default ListItem;

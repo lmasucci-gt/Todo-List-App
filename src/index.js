@@ -20,7 +20,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import Detail from "./components/Detail";
 import Input from "./components/Input";
 import ListItem from "./components/ListItem";
-import Modal from "./components/Modal";
+import CustomModal from "./components/Modal";
 
 const mapStateToProps = (state) => {
   return { data: state.todos };
@@ -172,6 +172,7 @@ const App = ({
       <View style={styles.body}>
         {!unfilteredToDos && task ? (
           <FlatList
+            testID='unfiltered-list'
             style={styles.list}
             data={task}
             keyExtractor={(x) => String(x.id)}
@@ -219,7 +220,7 @@ const App = ({
         ) : null}
 
         {visibility ? (
-          <Modal>
+          <CustomModal>
             <Detail
               showDetailTitle={selectedTask.title}
               showDetailDesc={selectedTask.desc}
@@ -230,7 +231,7 @@ const App = ({
               onChange={handleDescTask}
               value={descValue}
             />
-          </Modal>
+          </CustomModal>
         ) : null}
       </View>
       <View style={styles.footer}>

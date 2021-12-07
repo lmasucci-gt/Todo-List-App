@@ -9,7 +9,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-export default ({
+const Detail = ({
   changeState,
   completed,
   closeModal,
@@ -114,3 +114,5 @@ const styles = StyleSheet.create({
     margin: 15,
   },
 });
+
+export default Detail;

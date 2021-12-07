@@ -1,7 +1,7 @@
 import React, { Children } from "react";
 import { Dimensions, StyleSheet, Modal, View, Text } from "react-native";
 
-export default ({ children }) => {
+const CustomModal =  ({ children }) => {
   return (
     <Modal animationType="slide" transparent={true}>
       <View style={styles.center}>
@@ -32,3 +32,5 @@ const styles = StyleSheet.create({
     },
   },
 });
+
+export default CustomModal;
